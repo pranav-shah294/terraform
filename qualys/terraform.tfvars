@@ -1,2 +1,2 @@
-access_key = "AKIAI"
-secret_key = "YMQrU4XlMHJ43gVrZ"
+access_key = ""
+secret_key = ""
