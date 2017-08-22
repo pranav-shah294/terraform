@@ -1,8 +1,8 @@
 variable "access_key" {
-          default = "AKIAITF"
+          default = "F"
 }
 variable "secret_key" {
-          default = "pBDHPKg"
+          default = ""
 }
 variable "aws_region" {
 	  default = "us-east-1"
