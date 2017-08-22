@@ -1,0 +1,71 @@
+provider "aws" {
+        access_key = "AKI"
+        secret_key = "lBUk6fblZd"
+        region = "${var.aws_region}"
+}
+
+variable "vpc_id" {
+    type = "string"
+    default = "vpc-3"
+}
+
+variable "subnet_id" {
+    type = "string"
+    default = "subne"
+
+variable "route53_zone_id" {
+    type = "string"
+    default = "Z7DXFCU"
+}
+
+variable "key_pair" {
+    type = "string"
+    default = "abc"
+}
+
+resource "aws_instance" "web" {
+
+        instance_type = "t2.micro"
+        ami = "ami-01e2a017"
+        subnet_id = "${var.subnet_id}"
+        vpc_security_group_ids = ["sg-e04"]
+        key_name = "${var.key_pair}"
+        user_data = <<HEREDOC
+        #!/bin/bash
+        sudo hostnamectl set-hostname .com
+        HEREDOC
+}
+
+
+resource "aws_instance" "api" {
+
+        instance_type = "t2.micro"
+        ami = "ami-01e2a017"
+        vpc_security_group_ids = ["sg-4"]
+        subnet_id = "${var.subnet_id}"
+        key_name = "${var.key_pair}"
+        user_data = <<HEREDOC
+        #!/bin/bash
+        sudo hostnamectl set-hostname alys.com
+        HEREDOC
+}
+
+
+
+
+resource "aws_route53_record" "www" {
+  zone_id = "${var.route53_zone_id}"
+  name    = "pranav1.me"
+  type    = "A"
+  ttl     = "300"
+  records = ["${aws_instance.web.private_ip}"]
+}
+
+
+resource "aws_route53_record" "api" {
+  zone_id = "${var.route53_zone_id}"
+  name    = "pranav2.me"
+  type    = "A"
+  ttl     = "300"
+  records = ["${aws_instance.api.private_ip}"]
+}

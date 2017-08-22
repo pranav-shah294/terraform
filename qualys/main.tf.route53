@@ -1,0 +1,12 @@
+provider "aws" {
+        access_key = "AKIQ"
+        secret_key = "/YmM4NO0"
+        region = "${var.aws_region}"
+}
+
+resource "aws_route53_zone" "private" {
+  name = "intram"
+  vpc_id = "vpc-a"
+}
+
+

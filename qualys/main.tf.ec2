@@ -1,0 +1,23 @@
+provider "aws" {
+        access_key = "AK"
+        secret_key = "pBPKg"
+        region = "${var.aws_region}"
+}
+
+
+resource "aws_instance" "dst01" {
+
+        instance_type = "t2.micro"
+        ami = "ami-01e2a017"
+        subnet_id = "subdb"
+        vpc_security_group_ids = ["sg-6b5b"]
+        key_name = "terraform-virginia"
+        user_data = <<HEREDOC
+#!/bin/bash
+sudo touch /tmp/t1
+sudo yum update -y >> /tmp/t1
+echo "done udpate"
+echo "-=-=-=-=-=-=-=-="
+sudo hostname dst01.aws0.com >> /tmp/t1
+HEREDOC
+}
